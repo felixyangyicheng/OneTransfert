@@ -19,17 +19,20 @@ namespace OneTransfert.srv
                 });
             });
             builder.Services.AddCors(options => {
-               
+
                 var corsUrls = builder.Configuration.GetSection("App:CorsOrigins").Value.ToString()
                       .Split(",", StringSplitOptions.RemoveEmptyEntries)
                              .Select(o => o.Trim('/'))
                              .ToArray();
                 options.AddPolicy("AllowAll",
-                    b => b
-                    .WithOrigins(corsUrls)
-                       .AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .AllowCredentials());
+                    b => {
+
+                        b.WithOrigins(corsUrls);
+                        b.WithMethods("GET", "POST");
+                        b.AllowCredentials();
+                    }
+            
+                       );
                     //.AllowAnyMethod()
                     //.AllowAnyHeader()
                     //.SetIsOriginAllowed(origin => true) // allow any origin
