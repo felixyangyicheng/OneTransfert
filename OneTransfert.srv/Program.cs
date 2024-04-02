@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using OnTransfert.srv.Hubs;
 
 namespace OneTransfert.srv
@@ -8,7 +9,14 @@ namespace OneTransfert.srv
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.WebHost.ConfigureKestrel((context, options) =>
+            {
+                options.ListenAnyIP(80, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                    //listenOptions.UseHttps();
+                });
+            });
             // Add services to the container.
             builder.Services.AddAuthorization();
             builder.Services.AddSignalR();
