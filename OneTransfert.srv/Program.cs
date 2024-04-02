@@ -61,7 +61,7 @@ namespace OneTransfert.srv
 
             app.UseAuthorization();
             app.MapHub<FileTransferHub>("/file-transfer-hub");
-            app.UseCors("AllowAll");
+           // app.UseCors("AllowAll");
 
             app.Run();
         }
