@@ -1,25 +1,13 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine as build
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["OneTransfert.srv/OneTransfert.srv.csproj", "OneTransfert.srv/"]
-RUN dotnet restore "./OneTransfert.srv/OneTransfert.srv.csproj"
+EXPOSE 80
+EXPOSE 443
 COPY . .
-WORKDIR "/src/OneTransfert.srv"
-RUN dotnet build "./OneTransfert.srv.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet restore OneTransfert.srv.csproj
+RUN dotnet publish -o /app/published-app
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./OneTransfert.srv.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine as runtime
+RUN apk add icu 
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OneTransfert.srv.dll"]
+COPY --from=build /app/published-app /app
+ENTRYPOINT ["dotnet", "/app/OneTransfert.srv.dll"]
