@@ -1,4 +1,6 @@
 
+using OnTransfert.srv.Hubs;
+
 namespace OneTransfert.srv
 {
     public class Program
@@ -9,7 +11,15 @@ namespace OneTransfert.srv
 
             // Add services to the container.
             builder.Services.AddAuthorization();
-
+            builder.Services.AddSignalR();
+            builder.Services.AddCors(options => {
+                options.AddPolicy("AllowAll",
+                    b => b.AllowAnyMethod()
+                    .AllowAnyHeader()
+                     .SetIsOriginAllowed(origin => true) // allow any origin
+                    .WithExposedHeaders("X-Pagination")
+                       );
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -24,8 +34,10 @@ namespace OneTransfert.srv
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
+            app.MapHub<FileTransferHub>("/file-transfer-hub");
 
             var summaries = new[]
             {
