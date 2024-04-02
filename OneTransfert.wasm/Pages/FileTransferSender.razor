@@ -192,7 +192,7 @@
         _objRef = DotNetObjectReference.Create(this);
 
         _hub = new HubConnectionBuilder()
-            .WithUrl($"{Configuration["OneTransfert.srv"]}/file-transfer-hub")
+            .WithUrl($"{Configuration["OneTransfert.srv"]}/file-transfer-hub").WithAutomaticReconnect()
             .Build();
 
 

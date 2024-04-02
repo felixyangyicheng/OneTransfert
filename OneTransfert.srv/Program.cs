@@ -18,28 +18,26 @@ namespace OneTransfert.srv
                     //listenOptions.UseHttps();
                 });
             });
-            //builder.Services.AddCors(options => {
+            builder.Services.AddCors(options => {
 
-            //    var corsUrls = builder.Configuration.GetSection("App:CorsOrigins").Value.ToString()
-            //          .Split(",", StringSplitOptions.RemoveEmptyEntries)
-            //                 .Select(o => o.Trim('/'))
-            //                 .ToArray();
-            //    options.AddPolicy("AllowAll",
-            //        b => {
+    
+                options.AddPolicy("AllowAll",
+                    b => {
 
-            //            b.WithOrigins(corsUrls);
-            //            b.WithMethods("GET", "POST");
-            //            b.AllowCredentials();
-            //        }
+                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/");
+                        b.WithMethods("GET", "POST");
+                        b.AllowAnyHeader();
+                        b.AllowCredentials();
+                    }
             
-            //           );
-            //        //.AllowAnyMethod()
-            //        //.AllowAnyHeader()
-            //        //.SetIsOriginAllowed(origin => true) // allow any origin
-            //        //.AllowCredentials()
-            //        //.WithExposedHeaders("X-Pagination")
-            //        //   );
-            //});
+                       );
+                    //.AllowAnyMethod()
+                    //.AllowAnyHeader()
+                    //.SetIsOriginAllowed(origin => true) // allow any origin
+                    //.AllowCredentials()
+                    //.WithExposedHeaders("X-Pagination")
+                    //   );
+            });
             // Add services to the container.
             //builder.Services.AddAuthorization();
             builder.Services.AddSignalR();
@@ -60,7 +58,7 @@ namespace OneTransfert.srv
             //app.UseHttpsRedirection();
 
             //app.UseAuthorization();
-            app.MapHub<FileTransferHub>("/file-transfer-hub");
+            app.MapHub<FileTransferHub>("/file-transfer-hub").RequireCors("AllowAll");
            // app.UseCors("AllowAll");
 
             app.Run();
