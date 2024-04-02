@@ -18,31 +18,14 @@ namespace OneTransfert.srv
                     //listenOptions.UseHttps();
                 });
             });
-            builder.Services.AddCors(options => {
-
-                var corsUrls = builder.Configuration.GetSection("App:CorsOrigins").Value.ToString()
-                      .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                             .Select(o => o.Trim('/'))
-                             .ToArray();
-                options.AddPolicy("AllowAll",
-                    b => {
-
-                        b.WithOrigins(corsUrls);
-                        b.WithMethods("GET", "POST");
-                        b.AllowCredentials();
-                    }
-            
-                       );
-                    //.AllowAnyMethod()
-                    //.AllowAnyHeader()
-                    //.SetIsOriginAllowed(origin => true) // allow any origin
-                    //.AllowCredentials()
-                    //.WithExposedHeaders("X-Pagination")
-                    //   );
-            });
-            // Add services to the container.
             builder.Services.AddAuthorization();
             builder.Services.AddSignalR();
+            builder.Services.AddCors(setup =>
+            {
+                setup.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+            // Add services to the container.
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -58,10 +41,10 @@ namespace OneTransfert.srv
             }
 
             //app.UseHttpsRedirection();
-            app.UseCors("AllowAll");
 
             app.UseAuthorization();
             app.MapHub<FileTransferHub>("/file-transfer-hub");
+            app.UseCors();
 
             app.Run();
         }
