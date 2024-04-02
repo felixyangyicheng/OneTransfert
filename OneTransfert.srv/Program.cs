@@ -54,12 +54,15 @@ namespace OneTransfert.srv
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseRouting();
 
-            //app.UseHttpsRedirection();
-
-            //app.UseAuthorization();
+            app.UseCors("AllowAll");
+//            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapHub<FileTransferHub>("/file-transfer-hub").RequireCors("AllowAll");
-           // app.UseCors("AllowAll");
+            app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+
+
 
             app.Run();
         }
