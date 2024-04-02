@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using OnTransfert.srv.Hubs;
 
 namespace OneTransfert.srv
@@ -18,14 +19,23 @@ namespace OneTransfert.srv
                 });
             });
             builder.Services.AddCors(options => {
+               
+                var corsUrls = builder.Configuration.GetSection("App:CorsOrigins").Value.ToString()
+                      .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                             .Select(o => o.Trim('/'))
+                             .ToArray();
                 options.AddPolicy("AllowAll",
                     b => b
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed(origin => true) // allow any origin
-                    .AllowCredentials()
-                    .WithExposedHeaders("X-Pagination")
-                       );
+                    .WithOrigins(corsUrls)
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials());
+                    //.AllowAnyMethod()
+                    //.AllowAnyHeader()
+                    //.SetIsOriginAllowed(origin => true) // allow any origin
+                    //.AllowCredentials()
+                    //.WithExposedHeaders("X-Pagination")
+                    //   );
             });
             // Add services to the container.
             builder.Services.AddAuthorization();
@@ -48,13 +58,7 @@ namespace OneTransfert.srv
             app.UseCors("AllowAll");
 
             app.UseAuthorization();
-            //app.MapHub<FileTransferHub>("/file-transfer-hub");
-
-            app.UseEndpoints(endpoints =>
-            {
-       
-                endpoints.MapHub<FileTransferHub>("/file-transfer-hub");
-            });
+            app.MapHub<FileTransferHub>("/file-transfer-hub");
 
             app.Run();
         }
