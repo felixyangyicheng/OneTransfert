@@ -10,6 +10,9 @@ namespace OneTransfert.srv
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+#if DEBUG
+
+#else
             builder.WebHost.ConfigureKestrel((context, options) =>
             {
                 options.ListenAnyIP(80, listenOptions =>
@@ -18,13 +21,15 @@ namespace OneTransfert.srv
                     //listenOptions.UseHttps();
                 });
             });
+#endif
+
             builder.Services.AddCors(options => {
 
     
                 options.AddPolicy("AllowAll",
                     b => {
 
-                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/");
+                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140");
                         b.AllowAnyMethod();
                         b.AllowAnyHeader();
                         b.AllowCredentials();
