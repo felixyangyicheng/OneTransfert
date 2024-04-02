@@ -25,7 +25,7 @@ namespace OneTransfert.srv
                     b => {
 
                         b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/");
-                        b.WithMethods("GET", "POST");
+                        b.AllowAnyMethod();
                         b.AllowAnyHeader();
                         b.AllowCredentials();
                     }
