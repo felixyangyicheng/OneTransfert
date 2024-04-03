@@ -14,10 +14,10 @@
 
             <MudCard Class="mt-10">
                 <MudCardContent>
-                    <MudText Typo="Typo.body2">Prêt à envoyer un fichier？</MudText>
+                    <MudText Style="text-align: center;" Typo="Typo.body2">Prêt à envoyer un fichier？</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Variant="Variant.Text"
+                    <MudButton Style="text-align: center;" Variant="Variant.Text"
                                Color="MudBlazor.Color.Info"
                                OnClick="@(async () => await GotoSenderPageAsync())">Créer une salle</MudButton>
                 </MudCardActions>
@@ -25,11 +25,11 @@
 
             <MudCard Class="mt-5">
                 <MudCardContent>
-                    <MudText Typo="Typo.body2">En attente de réception du fichier？</MudText>
+                    <MudText Style="text-align: center;" Typo="Typo.body2">En attente de réception du fichier？</MudText>
                 </MudCardContent>
                 <MudCardActions>
 
-                    <MudTextField T="string"
+                    <MudTextField Style="text-align: center;" T="string"
                                   Label="Numéro de salle pour la connexion"
                                   Variant="Variant.Outlined"
                                   Adornment="Adornment.End"
