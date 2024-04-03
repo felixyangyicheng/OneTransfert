@@ -72,8 +72,9 @@
                     {
                 <MudItem xs="12" sm="12" md="12">
 
-                        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">Scannez le code pour accéder directement</MudAlert>
+                            <MudAlert Style="text-align: center;" Severity="Severity.Warning" Variant="Variant.Outlined">Scannez le code pour accéder directement</MudAlert>
                         <MudBarcode @bind-Value="_qrValue"
+                                    Style="text-align: center;"
                                     Width="170"
                                     Height="170"
                                     BarcodeFormat="ZXing.BarcodeFormat.QR_CODE" />
@@ -123,6 +124,7 @@
                                            Variant="MudBlazor.Variant.Text"
                                            Color="MudBlazor.Color.Primary"
                                            Size="MudBlazor.Size.Small"
+                                           FullWidth
                                            StartIcon="@Icons.Material.Filled.FileUpload"
                                            for="@context">
                                     Ajouter fichier

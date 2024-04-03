@@ -2,13 +2,13 @@
     position: fixed;
     right: 2rem;
     bottom: 2rem;
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem;
     animation: fadein 2s ease-out;
 }
 
 @keyframes fadein {
     from {
-        right: -100%;
+        right: -10%;
     }
 
     to {
