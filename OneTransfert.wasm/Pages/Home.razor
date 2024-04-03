@@ -1,7 +1,22 @@
 ﻿@page "/"
+@inject NavigationManager _nav
+<MudPaper Width="100%" Elevation="0">
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <MudPaper Width="100%"
+                  Square="true"
+                  Elevation="0"
+                  Class="pa-5 mt-10">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudButton Style="text-align: center;" Variant="Variant.Filled" Color="MudBlazor.Color.Info" OnClick="Transfer">Transfer</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudContainer>
+</MudPaper>
 
-<PageTitle>Home</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+@code{
+    private void Transfer(){
+        _nav.NavigateTo("/file-transfer");
+    }
+}

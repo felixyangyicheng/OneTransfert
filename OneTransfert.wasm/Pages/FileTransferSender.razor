@@ -23,23 +23,28 @@
 
 <MudPaper Width="100%" Elevation="0">
     <MudContainer MaxWidth="MaxWidth.Small">
-        <MudPaper Width="100%"
-                  Elevation="0"
-                  Square="true"
-                  Class="pa-5">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="4"></MudItem>
+            <MudItem xs="12" sm="6" md="4"></MudItem>
+            <MudItem xs="12" sm="6" md="4"></MudItem>
+            <MudItem xs="12" sm="12" md="12"></MudItem>
+            <MudItem xs="12" sm="12" md="12"></MudItem>
+
 
             @if (_roomId == 0)
             {
-                <div class="d-flex align-center">
+            <MudItem xs="12" sm="12" md="12">
                     <MudProgressCircular Color="MudBlazor.Color.Primary"
                                          Indeterminate="true"
                                          Size="MudBlazor.Size.Small" />
-                    <MudText Typo="@Typo.caption" Class="ml-2">création de la salle est en cours....</MudText>
-                </div>
+                    <MudText Typo="@Typo.caption" Class="ml-2">création de la salle est en cours....</MudText>              
+            </MudItem>
             }
             else
             {
-                <div class="d-flex mb-8">
+                <MudItem xs="12" sm="12" md="12">
+
+          
                     <MudChip Disabled="true" Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Surface">
                         Emetteur
                     </MudChip>
@@ -60,12 +65,13 @@
                             </MudChip>
                             break;
                     }
-                </div>
-
+                </MudItem>
                 if (_connectionType == ConnectionTypeEnum.None)
                 {
                     if (!_isReceiverJoined)
                     {
+                <MudItem xs="12" sm="12" md="12">
+
                         <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">Scannez le code pour accéder directement</MudAlert>
                         <MudBarcode @bind-Value="_qrValue"
                                     Width="170"
@@ -77,32 +83,38 @@
                                                  Size="MudBlazor.Size.Small" />
                             <MudText Typo="@Typo.caption" Class="ml-2">En attente de l'entrée du destinataire....</MudText>
                         </div>
+                </MudItem>
+
                     }
                     else
                     {
-                        <div class="d-flex align-center">
+                        <MudItem xs="12" sm="12" md="12">
+
                             <MudProgressCircular Color="MudBlazor.Color.Primary"
                                                  Indeterminate="true"
                                                  Size="MudBlazor.Size.Small" />
                             <MudText Typo="@Typo.caption" Class="ml-2">Connexion en cours....</MudText>
-                        </div>
+                        
 
-                        <div class="mt-5" style="font-size: 12px;opacity: 0.9;">
-                            Impossible de se connecter？Basculer sur le mode
-                            <MudElement HtmlTag="a"
-                                        Class="ma-0 cursor-pointer"
-                                        Style="color:var(--mud-palette-primary);font-weight:bold;opacity: 1;"
-                                        onclick="@EnableServiceRelay"
-                                        rel="noopener noreferrer">
-                                relai serveur
-                            </MudElement>
-                            Envoyer
-                        </div>
+                            <div class="mt-5" style="font-size: 12px;opacity: 0.9;">
+                                Impossible de se connecter？Basculer sur le mode
+                                <MudElement HtmlTag="a"
+                                            Class="ma-0 cursor-pointer"
+                                            Style="color:var(--mud-palette-primary);font-weight:bold;opacity: 1;"
+                                            onclick="@EnableServiceRelay"
+                                            rel="noopener noreferrer">
+                                    relai serveur
+                                </MudElement>
+                                Envoyer
+                            </div>
+                        </MudItem>
+
                     }
                 }
                 else
                 {
-                    <div class="d-flex align-center justify-space-between mb-2">
+                    <MudItem xs="12" sm="12" md="12">
+
                         <MudFileUpload Class="mr-3"
                                        T="IReadOnlyList<IBrowserFile>"
                                        FilesChanged="UploadFiles">
@@ -127,7 +139,8 @@
                                 Tout envoyer
                             </MudButton>
                         }
-                    </div>
+                    </MudItem>
+
 
                     foreach (var file in _files)
                     {
@@ -164,7 +177,8 @@
                     }
                 }
             }
-        </MudPaper>
+        </MudGrid>
+
     </MudContainer>
 </MudPaper>
 
