@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using MudBlazor;
@@ -7,6 +8,7 @@ using OneTransfert.wasm.Models;
 using OneTransfert.wasm.Shared.Dialogs;
 using System.Collections.Concurrent;
 using System.Text.Json;
+
 namespace OneTransfert.wasm.Pages
 {
     public partial class FileTransferSender
@@ -24,8 +26,33 @@ namespace OneTransfert.wasm.Pages
         private DotNetObjectReference<FileTransferSender> _objRef = null!;
 
         private readonly List<FileTransferInfo> _files = new List<FileTransferInfo>();
+
         private readonly SemaphoreSlim _fileQueueSlim = new(1, 1);
         private readonly ConcurrentQueue<FileTransferInfo> _fileQueue = new ConcurrentQueue<FileTransferInfo>();
+
+        protected ElementReference UploadElement { get; set; }
+        protected InputFile? inputFile { get; set; }
+
+
+        protected class UploadModel
+        {
+            public int Progress { get; set; } = 0;
+            public bool Uploaded { get; set; } = false;
+            public bool Deleted { get; set; }
+
+            public string Name { get; set; } = "";
+
+            public DateTimeOffset LastModified { get; set; }
+
+            public long Size { get; set; }
+
+            public string ContentType { get; set; } = "";
+            public byte[] Content { get; set; } = [];
+
+        }
+
+      
+
 
         protected override async Task OnParametersSetAsync()
         {
@@ -69,7 +96,54 @@ namespace OneTransfert.wasm.Pages
             System.Console.WriteLine("En attente de l'arrivée du destinataire....");
             await Task.Factory.StartNew(StartSendFileQueueAsync, TaskCreationOptions.LongRunning);
         }
+        protected async Task OnChange(InputFileChangeEventArgs e)
+        {
 
+            var fileList = e.GetMultipleFiles(e.FileCount);
+    
+            var tasks = fileList.Select(async f => await OnSubmit(f));
+            await Task.WhenAll(tasks);
+        }
+
+        protected async Task OnSubmit(IBrowserFile efile)
+        {
+            await LoadingAsync("Traitement du fichier en cours...");
+
+            if (efile == null) return;
+
+            var file = new FileTransferInfo();
+            file.FileName = efile.Name;
+            var ms = new MemoryStream();
+            // await efile.OpenReadStream(512000 * 1000).CopyToAsync(ms);
+            // var buffer = ms.ToArray();
+            var buffer = new byte[1024 * 512];
+
+
+
+            file.UploadProgress = 0;
+
+            int count;
+            int totalCount = 0;
+            using var stream = efile.OpenReadStream(512000*1000);
+            var finalBuffer = new byte[stream.Length];
+
+            while ((count = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+            {
+                Buffer.BlockCopy(buffer, 0, finalBuffer, totalCount, count);
+                totalCount += count;
+                file.UploadProgress = (int)(totalCount * 100.0 / stream.Length);
+                StateHasChanged();
+            }
+
+            file.FileContext = new List<byte>(buffer);
+            file.FileSize = buffer.Length;
+            var hashService = HashServiceFactory.Create(HashTypeEnum.SHA1);
+            file.SHA1 = await hashService.ComputeHashAsync(buffer, false);
+            _files.Add(file);
+            StateHasChanged();
+
+            await LoadingCompletedAsync();
+        }
         [JSInvokable]
         public async Task SendIceCandidateToServer(string candidate)
         {
@@ -128,7 +202,6 @@ namespace OneTransfert.wasm.Pages
             await Task.WhenAll(uploadTasks);
             await LoadingCompletedAsync();
         }
-
 
         protected async Task OnUploadReadStreamAsync(IBrowserFile f)
         {
@@ -224,7 +297,7 @@ namespace OneTransfert.wasm.Pages
                 await _hub.InvokeAsync("SendFile", chunk);
 
                 totalBytesSent += chunkToSend;
-                file.Progress = (double)totalBytesSent / file.FileContext.Count * 100; ;
+                file.TransferProgress = (double)totalBytesSent / file.FileContext.Count * 100; ;
 
                 await InvokeAsync(StateHasChanged);
                 await Task.Delay(10);
@@ -238,7 +311,7 @@ namespace OneTransfert.wasm.Pages
         public async Task FileSending(int length)
         {
             var file = _files.First(x => x.State == FileTransferStateEnum.Sending);
-            file.Progress = (double)(file.FileSize - length) / file.FileSize * 100;
+            file.TransferProgress = (double)(file.FileSize - length) / file.FileSize * 100;
             await InvokeAsync(StateHasChanged);
         }
 
@@ -268,5 +341,6 @@ namespace OneTransfert.wasm.Pages
             _isClosePage = true;
             _objRef?.Dispose();
         }
+ 
     }
 }

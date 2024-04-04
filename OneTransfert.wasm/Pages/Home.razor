@@ -19,4 +19,5 @@
     private void Transfer(){
         _nav.NavigateTo("/file-transfer");
     }
+    protected override void OnAfterRender(bool firstRender) => _nav.NavigateTo("/file-transfer");
 }

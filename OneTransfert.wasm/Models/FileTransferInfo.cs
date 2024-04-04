@@ -5,7 +5,8 @@ internal class FileTransferInfo : FileMetadata
 {
     public List<byte> FileContext { get; set; } = new List<byte>();
     public FileTransferStateEnum State { get; set; }
-    public double Progress { get; set; }
+    public double TransferProgress { get; set; }
+    public double UploadProgress { get; set; }
     public bool Succeed { get; set; }
     public string Message { get; set; } = "";
 }

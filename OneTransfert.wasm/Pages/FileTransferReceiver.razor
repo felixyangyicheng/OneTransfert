@@ -85,10 +85,10 @@
                         <MudProgressLinear Striped="true"
                                            Color="MudBlazor.Color.Info"
                                            Size="MudBlazor.Size.Large"
-                                           Value="@file.Progress"
+                                           Value="@file.TransferProgress"
                                            Class="mt-3">
                             <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark">
-                                <b>@($"{Convert.ToInt32(file.Progress)}%")</b>
+                                <b>@($"{Convert.ToInt32(file.TransferProgress)}%")</b>
                             </MudText>
                         </MudProgressLinear>
                     </MudItem>

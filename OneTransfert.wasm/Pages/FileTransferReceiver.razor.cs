@@ -133,7 +133,7 @@ namespace OneTransfert.wasm.Pages
         {
             var file = _files.First(x => x.State == FileTransferStateEnum.Sending);
             file.FileContext.AddRange(buffer);
-            file.Progress = (double)file.FileContext.Count / file.FileSize * 100;
+            file.TransferProgress = (double)file.FileContext.Count / file.FileSize * 100;
             await InvokeAsync(StateHasChanged);
         }
 

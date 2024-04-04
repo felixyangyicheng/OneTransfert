@@ -24,12 +24,6 @@
 <MudPaper Width="100%" Elevation="0">
     <MudContainer MaxWidth="MaxWidth.Small">
         <MudGrid>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="12" md="12"></MudItem>
-            <MudItem xs="12" sm="12" md="12"></MudItem>
-
 
             @if (_roomId == 0)
             {
@@ -43,13 +37,11 @@
             else
             {
                 <MudItem xs="12" sm="12" md="12">
-
-          
                     <MudChip Disabled="true" Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Surface">
                         Emetteur
                     </MudChip>
                     <MudChip Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Success">
-                        @($"Numéro de salle {_roomId}")
+                        @($"Connexion N° {_roomId}")
                     </MudChip>
 
                     @switch (_connectionType)
@@ -114,15 +106,47 @@
                 }
                 else
                 {
-                    <MudItem xs="12" sm="12" md="12">
 
+                    <MudItem xs="12" sm="12" md="12">
+                                    <MudGrid>
+
+                <MudItem xs="12" lg="4">        
+                    <div @ref="UploadElement" class="card">
+                        <InputFile OnChange="OnChange" class="form-control" accept="." multiple @ref="inputFile"  draggable="true" />
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12" lg="8">
+                    <table class="table table-info" style="max-height:60vh; overflow-y:scroll">
+                        <thead>
+                            <tr class="table-dark">
+
+                                <th>Nom</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody style="overflow-y:scroll">
+                            @foreach (var i in _files)
+                            {
+                                <tr>    
+                                        <td>@(i.FileName)</td>
+                                        <td>@($" " + i.UploadProgress + "%")</td>
+                                 
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </MudItem>
+            </MudGrid>
                         <MudFileUpload Class="mr-3"
                                        T="IReadOnlyList<IBrowserFile>"
+                                           MaximumFileCount="50"
                                        FilesChanged="UploadFiles">
                             <ButtonTemplate>
                                 <MudButton HtmlTag="label"
-                                           Variant="MudBlazor.Variant.Text"
-                                           Color="MudBlazor.Color.Primary"
+                                           Variant="MudBlazor.Variant.Filled"
+                                           Color="MudBlazor.Color.Info"
                                            Size="MudBlazor.Size.Small"
                                            FullWidth
                                            StartIcon="@Icons.Material.Filled.FileUpload"
@@ -169,12 +193,13 @@
                             <MudProgressLinear Striped="true"
                                                Color="MudBlazor.Color.Info"
                                                Size="MudBlazor.Size.Large"
-                                               Value="@file.Progress"
+                                               Value="@file.TransferProgress"
                                                Class="mt-3">
                                 <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Dark">
-                                    <b>@($"{Convert.ToInt32(file.Progress)}%")</b>
+                                    <b>@($"{Convert.ToInt32(file.TransferProgress)}%")</b>
                                 </MudText>
                             </MudProgressLinear>
+
                         </MudPaper>
                     }
                 }

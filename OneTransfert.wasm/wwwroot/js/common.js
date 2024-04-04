@@ -25,3 +25,4 @@ function selectText(ref) {
     input.focus();
     input.select();
 }
+ 
