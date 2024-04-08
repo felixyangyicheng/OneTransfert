@@ -122,7 +122,8 @@
                             <tr class="table-dark">
 
                                 <th>Nom</th>
-                                <th>Status</th>
+                                <th>Upload</th>
+                                <th>Transfer</th>
 
                             </tr>
                         </thead>
@@ -132,29 +133,15 @@
                                 <tr>    
                                         <td>@(i.FileName)</td>
                                         <td>@($" " + i.UploadProgress + "%")</td>
-                                 
+                                        <td>@($" " + i.TransferProgress + "%")</td>
+                                        
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </MudItem>
             </MudGrid>
-                        <MudFileUpload Class="mr-3"
-                                       T="IReadOnlyList<IBrowserFile>"
-                                           MaximumFileCount="50"
-                                       FilesChanged="UploadFiles">
-                            <ButtonTemplate>
-                                <MudButton HtmlTag="label"
-                                           Variant="MudBlazor.Variant.Filled"
-                                           Color="MudBlazor.Color.Info"
-                                           Size="MudBlazor.Size.Small"
-                                           FullWidth
-                                           StartIcon="@Icons.Material.Filled.FileUpload"
-                                           for="@context">
-                                    Ajouter fichier
-                                </MudButton>
-                            </ButtonTemplate>
-                        </MudFileUpload>
+
                         @if (_files.Any())
                         {
                             <MudButton HtmlTag="label"
@@ -170,7 +157,7 @@
 
                     foreach (var file in _files)
                     {
-                        <MudPaper Class="px-3 py-2">
+                        <MudItem xs="12" sm="12" md="12">
                             <div class="d-flex align-center justify-space-between">
                                 <MudText Typo="Typo.overline" Class="mt-1">@file.FileName</MudText>
                                     @switch (file.State)
@@ -200,7 +187,7 @@
                                 </MudText>
                             </MudProgressLinear>
 
-                        </MudPaper>
+                        </MudItem>
                     }
                 }
             }

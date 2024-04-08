@@ -15,10 +15,16 @@
 <MudPaper Width="100%" Elevation="0">
     <MudContainer MaxWidth="MaxWidth.Small">
         <MudGrid>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="6" md="4"></MudItem>
-            <MudItem xs="12" sm="12" md="12"></MudItem>
+
+            <MudItem xs="12" sm="12" md="12">
+                @if (_files.Count<1)
+                {
+                    <MudProgressCircular Color="MudBlazor.Color.Primary"
+                                         Indeterminate="true"
+                                         Size="MudBlazor.Size.Small" />
+                    <MudText Typo="@Typo.caption" Class="ml-2">En attente de téléchargement fichiers..</MudText>
+                }
+            </MudItem>
    
 
      
