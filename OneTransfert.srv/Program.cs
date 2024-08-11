@@ -29,7 +29,7 @@ namespace OneTransfert.srv
                 options.AddPolicy("AllowAll",
                     b => {
 
-                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140");
+                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140" );
                         b.AllowAnyMethod();
                         b.AllowAnyHeader();
                         b.AllowCredentials();
