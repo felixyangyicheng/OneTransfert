@@ -30,22 +30,22 @@
      
 
          <MudItem xs="12" sm="12" md="12">
-                <MudChip Disabled="true" Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Surface">
+                <MudChip Disabled="true" Label="true" T="string" Variant="Variant.Outlined" Color="MudBlazor.Color.Surface">
                     Destinatiare
                 </MudChip>
-                <MudChip Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Success">
+                <MudChip Label="true" T="string" Variant="Variant.Outlined" Color="MudBlazor.Color.Success">
                     @($"Numéro de salle {RoomId}")
                 </MudChip>
 
                 @switch (_connectionType)
                 {
                     case ConnectionTypeEnum.WebRTC:
-                        <MudChip Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Success">
+                        <MudChip Label="true" T="string" Variant="Variant.Outlined" Color="MudBlazor.Color.Success">
                             Peer to peer
                         </MudChip>
                         break;
                     case ConnectionTypeEnum.ServiceRelay:
-                        <MudChip Label="true" Variant="Variant.Outlined" Color="MudBlazor.Color.Warning">
+                        <MudChip Label="true"  T="string" Variant="Variant.Outlined" Color="MudBlazor.Color.Warning">
                             Transfert intermédiaire sur le serveur
                         </MudChip>
                         break;
