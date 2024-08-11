@@ -22,14 +22,15 @@ namespace OneTransfert.srv
                 });
             });
 #endif
-
+            var corsOrigins = builder.Configuration["CorsOrigins"];
             builder.Services.AddCors(options => {
 
     
                 options.AddPolicy("AllowAll",
                     b => {
 
-                        b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140" );
+                        //b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140" );
+                        b.WithOrigins(corsOrigins ?? throw new ArgumentException());
                         b.AllowAnyMethod();
                         b.AllowAnyHeader();
                         b.AllowCredentials();
