@@ -32,7 +32,7 @@ namespace OneTransfert.srv
                         b.WithOrigins("https://pwdman.duckdns.org; https://felixyangyicheng.github.io; https://yangyichengfelix.github.io");
                         //b.WithOrigins(corsOrigins ?? throw new ArgumentException());
                         b.AllowAnyMethod();
-                        b.AllowAnyHeader();
+                        //b.AllowAnyHeader();
                         b.AllowCredentials();
                     }
             
