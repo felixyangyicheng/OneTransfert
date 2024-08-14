@@ -29,8 +29,8 @@ namespace OneTransfert.srv
                 options.AddPolicy("AllowAll",
                     b => {
 
-                        //b.WithOrigins("https://pwdman.duckdns.org", "https://pwdman.duckdns.org/", "https://localhost:7140" );
-                        b.WithOrigins(corsOrigins ?? throw new ArgumentException());
+                        b.WithOrigins("https://pwdman.duckdns.org; https://felixyangyicheng.github.io; https://yangyichengfelix.github.io");
+                        //b.WithOrigins(corsOrigins ?? throw new ArgumentException());
                         b.AllowAnyMethod();
                         b.AllowAnyHeader();
                         b.AllowCredentials();
