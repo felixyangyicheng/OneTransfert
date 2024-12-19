@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using OneTransfert.wasm.Enums;
+﻿
 
 namespace OneTransfert.wasm.HashCheckService;
 public class HashServiceFactory

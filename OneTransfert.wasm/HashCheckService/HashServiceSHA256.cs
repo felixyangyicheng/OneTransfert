@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+﻿
 
 namespace OneTransfert.wasm.HashCheckService;
 public class HashServiceSHA256 : IHashService

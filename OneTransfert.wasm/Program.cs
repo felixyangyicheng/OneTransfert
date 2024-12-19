@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using MudBlazor.Services;
-using MudBlazor;
-using OneTransfert.wasm.HashCheckService;
+
 
 namespace OneTransfert.wasm
 {

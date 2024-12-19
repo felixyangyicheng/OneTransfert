@@ -1,10 +1,6 @@
-﻿using BootstrapBlazor.Components;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
+﻿
 
-using BootstrapBlazor.WebAPI.Services;
+using Color = BootstrapBlazor.Components.Color;
 
 namespace OneTransfert.wasm.Shared
 {

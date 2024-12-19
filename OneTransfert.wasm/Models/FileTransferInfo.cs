@@ -1,5 +1,4 @@
-﻿using OneTransfert.wasm.Enums;
-
+﻿
 namespace OneTransfert.wasm.Models;
 internal class FileTransferInfo : FileMetadata
 {
