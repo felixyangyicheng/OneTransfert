@@ -29,6 +29,7 @@ pipeline {
                 dir(env.PROJECT_DIR) {
                     sh "docker build -t one_transfer_srv:${GITHASH} ."
                     sh "docker tag one_transfer_srv:${GITHASH} one_transfer_srv:latest"
+                    sh "TIMESTAMP=\$(date -u +%Y%m%dT%H%M%SZ) && docker tag satisfaction:${GITHASH} satisfaction:\$TIMESTAMP"
                 }
             }
         }
